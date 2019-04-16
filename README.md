@@ -7,3 +7,4 @@ points and missing features needed.
 
 You might be able to check out a Binder repository of this working here:
 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/choldgraf/notebook-pandoc/master)
