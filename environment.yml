@@ -1,0 +1,8 @@
+name: pandoc-jupytext
+channels:
+  - conda-forge
+dependencies:
+  - jupytext
+  - pandoc
+  - numpy
+  - matplotlib

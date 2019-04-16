@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>My title</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<div class="cell markdown">
+<h1 id="authoring-and-publishing-a-notebook-with-jupytext-and-pandoc">Authoring and publishing a notebook with jupytext and pandoc</h1>
+<p>This is a quick post to explore two interesting tools for authoring and publishing quality documents with Jupyter Notebooks. We'll use a two step process and see how far we can get!</p>
+<h2 id="what-well-use">What we'll use</h2>
+<p>We are going to try to do the following:</p>
+<ul>
+<li>Write all of our content in Jupyter Notebooks (keep it to a single page for now)</li>
+<li>Use Jupytext to maintain a text representation of our notebook automatically.</li>
+<li>Use Pandoc and nbconvert to convert our notebook to <strong>HTML</strong>, <strong>PDF</strong>, and <strong>epub</strong>.</li>
+</ul>
+<p>In the process, we want to include the ability to:</p>
+<ul>
+<li>Generate citations</li>
+<li>Embed figures and code outputs</li>
+<li>Enable some interactive elements (like hiding code) in the HTML</li>
+</ul>
+<p>Along the way we may enounter some snags, but let's give it a shot!</p>
+<h2 id="a-short-code-example">A short code example</h2>
+<p>For demonstration's sake, here's a code example we'd like to include with our conversions. We'll use Matplotlib <span class="citation" data-cites="Hunter2007">(Hunter <a href="#ref-Hunter2007" role="doc-biblioref">2007</a>)</span> and in the Jupyter Notebook <span class="citation" data-cites="Kluyver2016">(Kluyver et al. <a href="#ref-Kluyver2016" role="doc-biblioref">2016</a>)</span>.</p>
+</div>
+<div class="cell code" data-execution_count="8" data-tags="[&quot;hidecode&quot;]">
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb1-1" title="1"><span class="im">import</span> numpy <span class="im">as</span> np</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</a>
+<a class="sourceLine" id="cb1-3" title="3"></a>
+<a class="sourceLine" id="cb1-4" title="4">data <span class="op">=</span> np.random.random((<span class="dv">2</span>, <span class="dv">100</span>))</a>
+<a class="sourceLine" id="cb1-5" title="5">fig, ax <span class="op">=</span> plt.subplots()</a>
+<a class="sourceLine" id="cb1-6" title="6">ax.scatter(<span class="op">*</span>data, c<span class="op">=</span>data[<span class="dv">1</span>], s<span class="op">=</span>data[<span class="dv">1</span>]<span class="op">*</span><span class="dv">1000</span>)</a>
+<a class="sourceLine" id="cb1-7" title="7">ax.<span class="bu">set</span>(title<span class="op">=</span><span class="st">&quot;My awesome plot&quot;</span>)</a></code></pre></div>
+<div class="output execute_result" data-execution_count="8">
+<pre><code>[Text(0.5, 1.0, &#39;My awesome plot&#39;)]</code></pre>
+</div>
+<div class="output display_data">
+<p><img src="./extracted/4ae9c4e0dfa18d65b3db7d60443ccbc643ff7e01.png" /></p>
+</div>
+</div>
+<div class="cell markdown" data-tags="[&quot;testtag&quot;]">
+<p><strong>Tags</strong> - we'll also add a tag to this markdown cell in order to see how it shows up in the text representations.</p>
+<p>Using the celltags JupyterLab plugin, there's a nifty UI that lets us do this quickly:</p>
+<p><img src="./extracted/4a6d048608d1bf23a08eddd48df6f59fa6e23f8b.png" id="img0" class="img" /></p>
+<p>Let's see how this plot looks in the final product!</p>
+</div>
+<div class="cell markdown">
+<h2 id="authoring">Authoring</h2>
+<p>First off, we'll use Jupytext to maintain a text representation of our notebook at each step of the way.</p>
+<p>Jupytext provides a few pieces of functionality. It is first a <strong>Converting tool</strong> to go from the <code>.ipynb</code> format to a number of text based formats. For this post, we'll use <strong>Markdown</strong>. This will make it much easier to diff and merge versions of the notebook.</p>
+<p>Second, Jupytext is also a <strong>Jupyter server extension</strong>. What does this mean? We can embed a piece of metadata into the notebook itself that tells Jupytext which formats we'd like to store alongside the <code>.ipynb</code> format. With that metadata in place, Jupytext will first convert the <code>.ipynb</code> format into the format we specify. It will then <strong>look for any changes</strong> to either of the two files, and automatically mirror that change in the other format.</p>
+<p>Let's enable this now.</p>
+<p><strong>Note: this assumes you've already install Jupytext, pandoc, and nbconvert</strong></p>
+<h3 id="enabling-the-jupytext-auto-conversion">Enabling the Jupytext auto-conversion</h3>
+<p>First off, we'll use JupyterLab to do our authoring. Jupytext also has a JupyterLab plugin that allows you to control its behavior per notebook. To enable it, bring up the <strong>command palette</strong> in JupyterLab by clicking <code>ctrl + shift + c</code> (on windows). Then type <code>jupytext</code>. You should see a list of available commands to control Jupytext.</p>
+<p>We'll choose the "Pair notebook with markdown" option, which is a nice default for a human-friendly text representation.</p>
+<p><img src="./extracted/9a75c75d5af1436805ef7de43154813a6f98f712.png" id="img2" class="img" /></p>
+<p>By clicking this option, you tell Jupytext to embed a piece of metadata in the notebook that tells it which formats should exist <em>alongside</em> the <code>.ipynb</code> format. You can inspect this metadata with the JSON viewer:</p>
+<p><img src="./extracted/22719ec5d3b8c7eab546afeb51df7fe80150d9e5.png" id="img3" class="img" /></p>
+<p>You should now also see a new markdown file (with the same name as the notebook) once you save the notebook for the first time. <strong>These two files are mirrored</strong>. Any changes you make to one will be reflected in the other (provided that your Jupyter Server is running).</p>
+<h3 id="inspecting-the-markdown-cell">Inspecting the markdown cell</h3>
+<p>Let's take a look at the markdown cell. First, we'll look at the markdown sections. Here's how they look:</p>
+<pre><code>## A short code example
+
+For demonstration&#39;s sake, here&#39;s a code example we&#39;d like to include with
+our conversions:
+
+```python tags=[&quot;hidecode&quot;]
+import numpy as np
+import matplotlib.pyplot as plt
+
+data = np.random.random((2, 100))
+fig, ax = plt.subplots()
+ax.scatter(*data, c=data[1], s=data[1]*1000)
+ax.set(title=&quot;My awesome plot&quot;)
+```
+
+&lt;!-- #region {&quot;tags&quot;: [&quot;testtag&quot;]} --&gt;
+**Tags** - we&#39;ll also add a tag to this markdown cell in order to
+see how it shows up in the text representations.
+
+Using the celltags JupyterLab plugin, there&#39;s a nifty UI that lets us do this
+quickly:
+
+&lt;img src=&quot;images/tags.png&quot; width=500px /&gt;
+
+Let&#39;s see how this plot looks in the final product!
+&lt;!-- #endregion --&gt;</code></pre>
+<p>As you can see, jupytext embeds the cell-level metadata in different regions that it uses to delineate sections of the noteobok. Code cells are defined by backticks, and markdown cells are delineated by <code>&lt;!-- #region --&gt;</code>.</p>
+<p>Also note that there are no image outputs in the markdown - that's desired! If we were to commit these files to a repository, we can use the markdown to see which <strong>content</strong> has changed, and use the <code>.ipynb</code> to preview the final product.</p>
+</div>
+<div class="cell markdown">
+<h2 id="a-bibliography">A bibliography</h2>
+<p>Finally, you may have noticed above that we added a couple latext-style citations. Let's add the shortcode for rendering a bibliography with Pandoc and see how this looks! For this, we'll use this Pandoc shortcode:</p>
+<p>::: {#refs} :::</p>
+<p>Note that these citations take this form: <code>@mycitation</code> and the citation data is stored in <code>bibliography.bib</code>.</p>
+<h2 id="publishing-our-document">Publishing our document</h2>
+<p>Now that we've got some nice content for our document, let's try converting it to some common publishing outputs. We'll use <strong>pandoc</strong> for this, because of its native document conversion tools.</p>
+<h3 id="converting-to-html">Converting to HTML</h3>
+<p>First off, we'll convert the page to HTML. We'll use the following command:</p>
+</div>
+<div class="cell code" data-execution_count="1">
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb4-1" title="1"><span class="co"># Now convert with pandoc</span></a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="op">!</span>pandoc <span class="op">--</span><span class="bu">filter</span> pandoc<span class="op">-</span>citeproc <span class="op">--</span>bibliography .<span class="op">/</span>bibliography.bib<span class="op">\</span></a>
+<a class="sourceLine" id="cb4-3" title="3">    <span class="op">-</span>f ipynb<span class="op">+</span>citations<span class="op">+</span>link_attributes <span class="op">\</span></a>
+<a class="sourceLine" id="cb4-4" title="4">    <span class="op">--</span>extract<span class="op">-</span>media .<span class="op">/</span>extracted <span class="op">\</span></a>
+<a class="sourceLine" id="cb4-5" title="5">    <span class="op">-</span>s <span class="op">\</span></a>
+<a class="sourceLine" id="cb4-6" title="6">    <span class="op">-</span>M pagetitle<span class="op">=</span><span class="st">&quot;My title&quot;</span> \</a>
+<a class="sourceLine" id="cb4-7" title="7">    <span class="op">-</span>M link<span class="op">-</span>citations<span class="op">=</span><span class="st">&quot;true&quot;</span> \</a>
+<a class="sourceLine" id="cb4-8" title="8">    .<span class="op">/</span>post.ipynb <span class="op">-</span>o post.html</a>
+<a class="sourceLine" id="cb4-9" title="9"></a>
+<a class="sourceLine" id="cb4-10" title="10"><span class="co"># Now copy the output to a new folder (we had to create the new file in this folder so the linking worked properly)</span></a>
+<a class="sourceLine" id="cb4-11" title="11"><span class="op">!</span>rm <span class="op">-</span>rf published</a>
+<a class="sourceLine" id="cb4-12" title="12"><span class="op">!</span>mkdir published</a>
+<a class="sourceLine" id="cb4-13" title="13"><span class="op">!</span>mv .<span class="op">/</span>post.html ..<span class="op">/</span>published</a>
+<a class="sourceLine" id="cb4-14" title="14"><span class="op">!</span>mv .<span class="op">/</span>extracted ..<span class="op">/</span>published<span class="op">/</span>extracted</a></code></pre></div>
+</div>
+<div class="cell code">
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb5-1" title="1"><span class="co">&#39;</span></a></code></pre></div>
+</div>
+<div id="refs" class="references" role="doc-bibliography">
+<div id="ref-Hunter2007">
+<p>Hunter, J. D. 2007. “Matplotlib: A 2D Graphics Environment.” <em>Computing in Science &amp; Engineering</em> 9 (3): 90–95. <a href="https://doi.org/10.1109/MCSE.2007.55">https://doi.org/10.1109/MCSE.2007.55</a>.</p>
+</div>
+<div id="ref-Kluyver2016">
+<p>Kluyver, Thomas, Benjamin Ragan-Kelley, Fernando Pérez, Brian Granger, Matthias Bussonnier, Jonathan Frederic, Kyle Kelley, et al. 2016. “Jupyter Notebooks – a Publishing Format for Reproducible Computational Workflows.” Edited by F. Loizides and B. Schmidt. IOS Press.</p>
+</div>
+</div>
+</body>
+</html>
